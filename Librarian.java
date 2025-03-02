@@ -3,7 +3,9 @@ package LMS;
 import static LMS.Library.librarian;
 import static LMS.Library.persons;
 
-//it follows SRP now: Separated office assignment responsibility
+// follows SRP now: Separated office assignment responsibility into its own class
+// Before: Office number assignment was handled inside BaseLibrarian, violating SRP.
+// Now: The responsibility is moved to OfficeAllocator.
 class OfficeAllocator {
     private static int currentOfficeNumber = 0;
 
@@ -15,7 +17,9 @@ class OfficeAllocator {
     }
 }
 
-// it follows SRP & OCP now: Base class for all librarian roles
+// follows SRP & OCP : Created a base class for all librarian roles
+// Before: The Librarian class directly handled different types of librarians, violating OCP.
+//Now: We have BaseLibrarian, which allows extension without modification.
 abstract class BaseLibrarian extends Staff {
     protected int officeNo;
 
@@ -24,7 +28,7 @@ abstract class BaseLibrarian extends Staff {
         this.officeNo = OfficeAllocator.assignOffice(of);
     }
 
-    //it follows OCP : This method ensures any new librarian type follows the same structure
+    // follows OCP : Now, any new librarian type can extend BaseLibrarian without modifying existing code.
     public abstract void manageLibrary();
 
     @Override
@@ -34,9 +38,12 @@ abstract class BaseLibrarian extends Staff {
     }
 }
 
-//it follows SRP now: LibrarianManager now handles librarian-related operations
+// follows SRP FIX: LibrarianManager now handles librarian-related operations separately
+// Before: Librarian class managed adding librarians, violating SRP.
+// Now: This logic is extracted into a dedicated LibrarianManager class.
 class LibrarianManager {
-    public static boolean addLibrarian(BaseLibrarian lib) { //it follows OCP now: Works for any librarian type
+    public static boolean addLibrarian(BaseLibrarian lib) { 
+        //follows OCP now: Now works for any librarian type, not just a specific one.
         if (librarian == null) {
             librarian = lib;
             persons.add(librarian);
@@ -48,7 +55,9 @@ class LibrarianManager {
     }
 }
 
-//it follows OCP and LSP: Head Librarian now follows the proper structure
+// it follows OCP & LSP now: Head Librarian now correctly follows OCP & LSP
+// Before: Any new librarian type had to modify an existing class, breaking OCP.
+// Now: The Librarian class extends BaseLibrarian and implements its own behavior.
 public class Librarian extends BaseLibrarian {
     public Librarian(int id, String n, String a, int p, double s, int of) {
         super(id, n, a, p, s, of);
@@ -60,7 +69,9 @@ public class Librarian extends BaseLibrarian {
     }
 }
 
-//it follows LSP now: AssistantLibrarian does not extend BaseLibrarian (only assists)
+// it follows LSP now: AssistantLibrarian now implements an interface instead of extending BaseLibrarian
+// Before: AssistantLibrarian extended BaseLibrarian but did not need all its properties ,violating LSP.
+// Now: AssistantLibrarian has its own interface, following proper substitution rules.
 interface LibraryAssistantRole {
     void assistInLibrary();
 }
