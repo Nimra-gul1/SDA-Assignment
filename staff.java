@@ -1,11 +1,11 @@
 package LMS;
 
-// ✅ FIXED LSP: Created a separate interface for salary-related functionality
+//  FIXED LSP: Created a separate interface for salary-related functionality
 public interface staff {
     double getSalary();
 }
 
-// ✅ FIXED LSP: Person remains generic (no salary field here)
+//  FIXED LSP: Person remains generic (no salary field here)
 public abstract class Person {
     protected int id;
     protected String name;
@@ -19,7 +19,7 @@ public abstract class Person {
         this.phoneNo = phoneNo;
     }
 
-    // ✅ Print common person details
+    //  Print common person details
     public void printInfo() {
         System.out.println("ID: " + id);
         System.out.println("Name: " + name);
@@ -28,9 +28,9 @@ public abstract class Person {
     }
 }
 
-// ✅ FIXED LSP: Now Staff implements Payable (only Staff has salary)
+//  FIXED LSP: Now Staff implements Payable (only Staff has salary)
 public class Staff extends Person implements staff {
-    private double salary; // ✅ Moved salary responsibility here
+    private double salary; // Moved salary responsibility here
 
     public Staff(int id, String name, String address, int phoneNo, double salary) {
         super(id, name, address, phoneNo);
@@ -40,16 +40,16 @@ public class Staff extends Person implements staff {
     @Override
     public void printInfo() {
         super.printInfo(); 
-        System.out.println("Salary: " + salary); // ✅ Now only Staff prints salary
+        System.out.println("Salary: " + salary); //  Now only Staff prints salary
     }
 
     @Override
     public double getSalary() {
-        return salary; // ✅ Only Staff has salary logic
+        return salary; //  Only Staff has salary logic
     }
 }
 
-// ✅ A new class (e.g., Student) can extend Person without being forced to have salary
+//  A new class (e.g., Student) can extend Person without being forced to have salary
 public class Student extends Person {
     private String course;
 
@@ -61,20 +61,20 @@ public class Student extends Person {
     @Override
     public void printInfo() {
         super.printInfo();
-        System.out.println("Course: " + course); // ✅ No salary here, LSP fixed
+        System.out.println("Course: " + course); //  No salary here, LSP fixed
     }
 }
 
-// ✅ Demonstration (LSP Fixed)
+//  Demonstration (LSP Fixed)
 public class Main {
     public static void main(String[] args) {
         Staff staffMember = new Staff(201, "Alice", "789 Pine St", 987654321, 50000);
         Student studentMember = new Student(301, "Bob", "456 Oak St", 112233445, "Computer Science");
 
         System.out.println("Staff Details:");
-        staffMember.printInfo(); // ✅ Works fine for staff
+        staffMember.printInfo(); //  Works fine for staff
 
         System.out.println("\nStudent Details:");
-        studentMember.printInfo(); // ✅ Works fine for student (no salary forced)
+        studentMember.printInfo(); // Works fine for student (no salary forced)
     }
 }
