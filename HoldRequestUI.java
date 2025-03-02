@@ -2,9 +2,7 @@ package LMS;
 
 public class HoldRequestUI {
     /*
-       it follows srp now: this class handles ui-related logic.
-       Moved `printHoldRequests` from `HoldRequestOperations`.
-       Now the operations class is more cleaner and more reusable.
+       it follows SRP now: this class handles all UI-related logic and moved `printHoldRequests` from `HoldRequestOperations` and removed `print()` method from `HoldRequest`.
     */
 
     public static void printHoldRequests(HoldRequestOperations holdRequestOperations) {
@@ -16,10 +14,16 @@ public class HoldRequestUI {
 
             for (int i = 0; i < holdRequestOperations.getHoldRequests().size(); i++) {
                 System.out.print(i + "-" + "\t\t");
-                holdRequestOperations.getHoldRequests().get(i).print();
+                printHoldRequest(holdRequestOperations.getHoldRequests().get(i));
             }
         } else {
             System.out.println("\nNo Hold Requests.");
         }
+    }
+
+    public static void printHoldRequest(HoldRequest hr) {
+        System.out.print(hr.getBook().getTitle() + "\t\t\t\t" + 
+                         hr.getBorrower().getName() + "\t\t\t\t" + 
+                         hr.getRequestDate() + "\n");
     }
 }
