@@ -7,15 +7,13 @@ public class HoldRequestOperations {
     private List<HoldRequest> holdRequests = new ArrayList<>();
 
     /*
-       it follows SRP now: Removed print statements.
-       This class now only handles hold request operations.
-       Printing logic has been moved to `HoldRequestUI`.
+       it follows SRP now: Removed print statements and this class now only handles hold request operations and printing logic has been moved to `HoldRequestUI`.
     */
 
     public void makeHoldRequest(Borrower borrower, Book book) {
         for (HoldRequest hr : holdRequests) {
             if (hr.getBorrower() == borrower) {
-                
+
                 // UI-related message removed
                 return;
             }
