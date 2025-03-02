@@ -1,5 +1,3 @@
-//Now in this code only SRP violates thats it 
-
 package LMS;
 
 import java.time.temporal.ChronoUnit;
@@ -85,3 +83,4 @@ public class Loan {
         }
     }
 }
+
