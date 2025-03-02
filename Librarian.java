@@ -1,29 +1,30 @@
-// The violation of the OCP (Open/Closed Principle) in the Librarian class occurs because if we need to add new types of librarians (e.g., AssistantLibrarian) in the future, we have to modify the Librarian class. To fix this, we will use a base abstract class or an interface.
 package LMS;
 
 import static LMS.Library.librarian;
 import static LMS.Library.persons;
 
-// Violation:
-// The Librarian class directly inherits from Staff, but if we need to create new types of librarians (e.g., AssistantLibrarian), we have to modify the Librarian class, which violates the OCP (Open/Closed Principle).
-// Fix:
-// Create an ILibrarian interface or an AbstractLibrarian base class and use subclasses to handle specific functionalities.
-public abstract class BaseLibrarian extends Staff {
+//it follows SRP now: Separated office assignment responsibility
+class OfficeAllocator {
+    private static int currentOfficeNumber = 0;
 
-    int officeNo;
-    public static int currentOfficeNumber = 0;
+    public static int assignOffice(int providedOfficeNumber) {
+        if (providedOfficeNumber == -1) {
+            return currentOfficeNumber++;
+        }
+        return providedOfficeNumber;
+    }
+}
+
+// it follows SRP & OCP now: Base class for all librarian roles
+abstract class BaseLibrarian extends Staff {
+    protected int officeNo;
 
     public BaseLibrarian(int id, String n, String a, int p, double s, int of) {
         super(id, n, a, p, s);
-        if (of == -1) {
-            officeNo = currentOfficeNumber;
-        } else {
-            officeNo = of;
-        }
-        currentOfficeNumber++;
+        this.officeNo = OfficeAllocator.assignOffice(of);
     }
 
-    // Common librarian functionalities
+    //it follows OCP : This method ensures any new librarian type follows the same structure
     public abstract void manageLibrary();
 
     @Override
@@ -33,19 +34,9 @@ public abstract class BaseLibrarian extends Staff {
     }
 }
 
-// Concrete Librarian Class
-public class Librarian extends BaseLibrarian {
-
-    public Librarian(int id, String n, String a, int p, double s, int of) {
-        super(id, n, a, p, s, of);
-    }
-
-    @Override
-    public void manageLibrary() {
-        System.out.println("Managing Library as Head Librarian.");
-    }
-
-    public static boolean addLibrarian(Librarian lib) {
+//it follows SRP now: LibrarianManager now handles librarian-related operations
+class LibrarianManager {
+    public static boolean addLibrarian(BaseLibrarian lib) { //it follows OCP now: Works for any librarian type
         if (librarian == null) {
             librarian = lib;
             persons.add(librarian);
@@ -57,15 +48,32 @@ public class Librarian extends BaseLibrarian {
     }
 }
 
-// New type of librarian
-public class AssistantLibrarian extends BaseLibrarian {
-
-    public AssistantLibrarian(int id, String n, String a, int p, double s, int of) {
+//it follows OCP and LSP: Head Librarian now follows the proper structure
+public class Librarian extends BaseLibrarian {
+    public Librarian(int id, String n, String a, int p, double s, int of) {
         super(id, n, a, p, s, of);
     }
 
     @Override
     public void manageLibrary() {
-        System.out.println("Assisting in Library Management.");
+        System.out.println("Managing Library as Head Librarian.");
+    }
+}
+
+//it follows LSP now: AssistantLibrarian does not extend BaseLibrarian (only assists)
+interface LibraryAssistantRole {
+    void assistInLibrary();
+}
+
+class AssistantLibrarian implements LibraryAssistantRole {
+    private String name;
+
+    public AssistantLibrarian(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void assistInLibrary() {
+        System.out.println(name + " is assisting in library tasks.");
     }
 }
