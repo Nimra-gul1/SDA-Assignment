@@ -1,5 +1,5 @@
 // Base class for all staff members
-public abstract class StaffMember {
+public abstract class clerk {
 
     int id;
     String name;
@@ -8,7 +8,7 @@ public abstract class StaffMember {
     double salary;
 
     // Constructor to initialize common fields
-    public StaffMember(int id, String name, String address, int phone, double salary) {
+    public clerk(int id, String name, String address, int phone, double salary) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -21,7 +21,7 @@ public abstract class StaffMember {
 }
 
 // Clerk class (inherits from StaffMember)
-public class Clerk extends StaffMember {
+public class Clerk extends clerk {
 
     int deskNo;  // Desk number is now assigned externally
 
