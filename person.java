@@ -68,4 +68,8 @@ public abstract class Person {
     public int getID() {
         return id;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e29bbaec02443d6ca95cfc6f9879c0b83be69c6c

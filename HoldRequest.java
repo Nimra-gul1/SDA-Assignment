@@ -16,8 +16,4 @@ public class HoldRequest {
     public Borrower getBorrower() { return borrower; }
     public Book getBook() { return book; }
     public Date getRequestDate() { return requestDate; }
-
-    public void print() {
-        System.out.print(book.getTitle() + "\t\t\t\t" + borrower.getName() + "\t\t\t\t"  + requestDate + "\n");
-    }
 }

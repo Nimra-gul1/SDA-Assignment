@@ -1,4 +1,6 @@
 
+//Violation: There was an OCP violation because adding new entities required modifying the entire code.
+//Fix: The code was refactored using the Factory pattern and polymorphism, allowing new entities to be added easily without modifying the existing code.
 import java.sql.*;
 import java.util.*;
 

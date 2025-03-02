@@ -77,4 +77,8 @@ public class Main {
         System.out.println("\nStudent Details:");
         studentMember.printInfo(); // Works fine for student (no salary forced)
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e29bbaec02443d6ca95cfc6f9879c0b83be69c6c
