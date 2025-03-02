@@ -1,5 +1,4 @@
-// StaffMember class (base class)
-
+// Base class for all staff members
 public abstract class StaffMember {
 
     int id;
@@ -8,7 +7,7 @@ public abstract class StaffMember {
     int phone;
     double salary;
 
-    // Constructor to initialize common fields for all staff members
+    // Constructor to initialize common fields
     public StaffMember(int id, String name, String address, int phone, double salary) {
         this.id = id;
         this.name = name;
@@ -17,40 +16,41 @@ public abstract class StaffMember {
         this.salary = salary;
     }
 
-    // Abstract method for printing staff info (can be overridden by specific staff classes)
+    // Abstract method to enforce info printing in subclasses
     public abstract void printInfo();
 }
 
-// Clerk class (extends StaffMember)
+// Clerk class (inherits from StaffMember)
 public class Clerk extends StaffMember {
 
-    int deskNo;
-    public static int currentdeskNumber = 0;
+    int deskNo;  // Desk number is now assigned externally
 
+    /**
+     * LSP Fix: 
+     * - Removed static `currentdeskNumber`, making desk assignment flexible.
+     * - Now, desk numbers are assigned explicitly by the caller instead of enforced.
+     */
     public Clerk(int id, String name, String address, int phone, double salary, int deskNo) {
         super(id, name, address, phone, salary);
-
-        if (deskNo == -1) {
-            this.deskNo = currentdeskNumber;
-        } else {
-            this.deskNo = deskNo;
-        }
-
-        currentdeskNumber++;
+        this.deskNo = deskNo;  // Desk number is explicitly passed
     }
 
     @Override
     public void printInfo() {
-        super.printInfo();
+        System.out.println("ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Address: " + address);
+        System.out.println("Phone: " + phone);
+        System.out.println("Salary: " + salary);
         System.out.println("Desk Number: " + deskNo);
     }
 }
 
-// SeniorClerk class (extends Clerk)
+// SeniorClerk class (inherits from Clerk)
 public class SeniorClerk extends Clerk {
 
     public SeniorClerk(int id, String name, String address, int phone, double salary, int deskNo) {
-        super(id, name, address, phone, salary, deskNo);
+        super(id, name, address, phone, salary, deskNo); // Explicit desk number
     }
 
     @Override
@@ -60,11 +60,11 @@ public class SeniorClerk extends Clerk {
     }
 }
 
-// JuniorClerk class (extends Clerk)
+// JuniorClerk class (inherits from Clerk)
 public class JuniorClerk extends Clerk {
 
     public JuniorClerk(int id, String name, String address, int phone, double salary, int deskNo) {
-        super(id, name, address, phone, salary, deskNo);
+        super(id, name, address, phone, salary, deskNo); // Explicit desk number
     }
 
     @Override
@@ -74,14 +74,14 @@ public class JuniorClerk extends Clerk {
     }
 }
 
-// Main class to test the implementation
+// Main class to test implementation
 public class Main {
 
     public static void main(String[] args) {
-        // Creating instances of different clerks
-        Clerk clerk1 = new Clerk(101, "John Doe", "123 Main St", 123456789, 30000, -1);
-        SeniorClerk seniorClerk = new SeniorClerk(102, "Jane Smith", "456 Oak St", 987654321, 40000, -1);
-        JuniorClerk juniorClerk = new JuniorClerk(103, "Emily Johnson", "789 Pine St", 112233445, 25000, -1);
+        // Desk numbers are now assigned explicitly by the caller
+        Clerk clerk1 = new Clerk(101, "John Doe", "123 Main St", 123456789, 30000, 1);
+        SeniorClerk seniorClerk = new SeniorClerk(102, "Jane Smith", "456 Oak St", 987654321, 40000, 2);
+        JuniorClerk juniorClerk = new JuniorClerk(103, "Emily Johnson", "789 Pine St", 112233445, 25000, 3);
 
         // Printing info for each clerk
         clerk1.printInfo();
