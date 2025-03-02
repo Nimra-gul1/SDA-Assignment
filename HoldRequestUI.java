@@ -2,7 +2,7 @@ package LMS;
 
 public class HoldRequestUI {
     /*
-       SRP FIX: This class handles ui-related logic.
+       it follows srp now: this class handles ui-related logic.
        Moved `printHoldRequests` from `HoldRequestOperations`.
        Now the operations class is more cleaner and more reusable.
     */
